@@ -4,6 +4,12 @@ Generate boiler plate code file from command line.
 
 Support for multiple language and formats.
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 
 
@@ -11,9 +17,33 @@ Support for multiple language and formats.
 
 ### Verion 0.1
 
-1. [Linux]()
+1. [Linux](https://www.letscodeofficial.com/media/fileSharer/cgen)
 2. [Windows - not avaiable yet]()
 
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+# Installation
+
+### Linux
+
+```
+Copy the cgen to /bin/ dir
+```
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 # Usage
 
@@ -33,11 +63,17 @@ cgen py-main test.py
 test.py will be generated from boiler plate code of py-main template
 
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 
 # Templates
 
-checkout all available templates [here]()
+checkout all available templates [here](https://www.letscodeofficial.com/documentations/boiler%20plate%20code%20generator%20templates#/)
 
 <br>
 
@@ -51,11 +87,17 @@ cgen -h
 
 
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 
 # Keep cgen up to date
 
-checkout for the latest version updates on [github]()
+checkout for the latest version updates on [github](https://github.com/harshnative/boiler-plate-code-generator)
 
 
 <br>
