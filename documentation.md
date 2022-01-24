@@ -17,7 +17,7 @@ Support for multiple language and formats.
 
 ### Verion 0.1
 
-1. [Linux](https://www.letscodeofficial.com/media/fileSharer/cgen)
+1. [Debain / Ubuntu](https://www.letscodeofficial.com/media/fileSharer/cgen)
 2. [Windows - not avaiable yet]()
 
 
@@ -73,7 +73,7 @@ test.py will be generated from boiler plate code of py-main template
 
 # Templates
 
-checkout all available templates [here](https://www.letscodeofficial.com/documentations/boiler%20plate%20code%20generator%20templates#/)
+checkout all available templates [click here](https://www.letscodeofficial.com/documentations/boiler%20plate%20code%20generator%20templates#/)
 
 <br>
 
