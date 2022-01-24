@@ -43,11 +43,12 @@ class PathFunctions:
         pathList = []
 
         dirpath = pathlib.Path(root_path)
-
+        
+        # raise error if the root path is not a dir itself
         assert dirpath.is_dir()
 
         for path in dirpath.iterdir():
-            if path.is_dir():
+            if(path.is_dir()):
                 pathList.append(path)
 
         return pathList
@@ -63,10 +64,11 @@ class PathFunctions:
 
         dirpath = pathlib.Path(folder_path)
 
+        # raise error if the folder_path is not a dir itself
         assert dirpath.is_dir()
 
         for x in dirpath.iterdir():
-            if x.is_file():
+            if(x.is_file()):
                 filesList.append(x)
 
         return filesList
@@ -199,9 +201,21 @@ def generate_boiler_plate_file(file_name , boiler_plate_file_path):
 
 
 def main():
-    print(PathFunctions.getSubFolders(resource_path("templates/")))
-    input()
-    print(PathFunctions.getSubFiles(resource_path("templates/py/")))
+    
+    try:
+        result = args_parser()
+    except Exception as ex:
+        print("\n\n")
+        print("ERROR :" , ex)
+        sys.exit()
+
+
+    try:
+        generate_boiler_plate_file(*result)
+    except Exception as ex:
+        print("\n\n")
+        print("ERROR :" , ex)
+        sys.exit()
 
 
 
