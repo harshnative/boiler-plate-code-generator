@@ -1,17 +1,82 @@
 import pathlib
 import os
 import sys
-
-
+import requests
+from threading import Thread
 from rich.console import Console
 from rich.markdown import Markdown
+from apis import Data
+from colored import fg
 
 
 
 
 class GlobalData:
     utilityName = "cgen"
-    utilityVersion = "0.0.1"
+    utilityVersion = 0.1
+
+    update_message = None
+
+    blueColor = fg('blue')
+    greenColor = fg('green')
+    redColor = fg('red')
+    yellowColor = fg('yellow')
+    whiteColor = fg('white')
+
+
+
+
+
+
+
+class VersionChecker(Thread):
+
+    def run(self):
+        try:
+
+            # getting the response from website api
+            response = requests.post("https://www.letscodeofficial.com/cgen_version" , data={"api_key" : Data.lco_version_apiKey}).json()
+            # response = requests.post("http://127.0.0.1:8000/cgen_version" , data={"api_key" : Data.lco_version_apiKey}).json()
+            
+            # reponse is like [{"version": 0.1}] so getting the dict from index 0
+            dictResponse = response[0]
+
+            currentVersion = GlobalData.utilityVersion
+            versionFromResponse = dictResponse.get('version')
+
+            # comparing the versions
+            if(versionFromResponse > currentVersion):
+                GlobalData.update_message = f"New update of {GlobalData.utilityName} is available. Latest version is {versionFromResponse} , While you are using {currentVersion}"
+
+            return versionFromResponse
+
+        except Exception as e:
+            pass
+
+
+
+
+
+
+# function to check the number
+def version_check():
+
+    versionCheckerObj = VersionChecker()
+    versionCheckerObj.start()
+    
+    print("checking for the latest version ...\n\n")
+
+    versionCheckerObj.join()
+
+    if(GlobalData.update_message != None):
+        print(GlobalData.update_message)
+    else:
+        print("You are upto date :)")
+
+    sys.exit()
+
+
+
 
 
 
@@ -153,7 +218,7 @@ def get_file_path(file_requested):
 
     return None
 
-     
+    
 
 
 
@@ -169,6 +234,9 @@ def args_parser():
 
         if(boiler_plate_file.strip().lower() == "-h"):
             display_help()
+
+        if(boiler_plate_file.strip().lower() == "-c"):
+            version_check()
     except IndexError:
         raise IndexError("No boiler_plate_file reference passed")
         
@@ -305,7 +373,7 @@ def display_help():
 
 # main function
 def main():
-    
+
     # parse argument
     try:
         result = args_parser()
@@ -322,6 +390,9 @@ def main():
         print("\n\n")
         print("ERROR :" , ex)
         sys.exit()
+
+
+    print("\n\nCode Generated (^_^)\n")
 
 
 
