@@ -5,6 +5,13 @@ import sys
 
 
 
+class GlobalData:
+    utilityName = "cgen"
+    utilityVersion = "0.0.1"
+
+
+
+
 
 # function to get the path from the relative path of file
 # required when file is bundled with pyinstaller
