@@ -51,6 +51,8 @@ class PathFunctions:
             if(path.is_dir()):
                 pathList.append(path)
 
+        pathList = sorted(pathList , key=lambda x : x.name)
+
         return pathList
 
 
@@ -70,6 +72,8 @@ class PathFunctions:
         for x in dirpath.iterdir():
             if(x.is_file()):
                 filesList.append(x)
+
+        filesList = sorted(filesList , key=lambda x : x.name)
 
         return filesList
 
