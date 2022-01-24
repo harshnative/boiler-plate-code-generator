@@ -86,10 +86,11 @@ class PathFunctions:
 
 # function to get the mapping dict
 # mapping dict structure = {
-# "dir1" : [{"name" : "file1" , "fullName" : "file1.ext" , "path" : pathlib.Path()} , {} , {}] , 
+# "dir1_dirOne" : [{"name" : "file1" , "fullName" : "file1.ext" , "path" : pathlib.Path()} , {} , {}] , 
 # "dir2" : [] ,
 # }
 # dir1 and dir2 are dirs inside templates folder
+# dirOne is alternative name to dir1
 # file1.ext is file inside dir1 dir
 # pathlib.Path() is the absolute path of the file 
 def get_mapping_dict(root_path):
@@ -97,7 +98,7 @@ def get_mapping_dict(root_path):
     result_dict = {}
 
     for dir in PathFunctions.getSubFolders(root_path):
-        dirName = dir.name
+        dirName = str(dir.name).lower()
 
         subFiles = PathFunctions.getSubFiles(dir)
 
@@ -110,7 +111,7 @@ def get_mapping_dict(root_path):
             subDict["path"] = file.absolute()
             subList.append(subDict)
 
-        result_dict[str(dirName).lower()] = subList
+        result_dict[dirName] = subList
 
     return result_dict
 
@@ -135,16 +136,16 @@ def get_file_path(file_requested):
     # get mapping dict
     mapping_dict = get_mapping_dict(resource_path("templates/"))
 
-    file_list = mapping_dict.get(dirName , None)
+    for key , value in mapping_dict.items():
+        dirNames = key.split("_")
 
-    if(file_list == None):
-        raise FileNotFoundError(f"No dir named {dirName} in templates folder. Read docs to know available templates")
+        if(dirName in dirNames):
 
-    for i in file_list:
+            for i in value:
 
-        # if the name matched return file path
-        if(i.get('name') == fileName):
-            return i.get("path")
+                # if the name matched return file path
+                if(i.get('name') == fileName):
+                    return i.get("path")
 
     return None
 
@@ -188,6 +189,8 @@ def args_parser():
 
 
 
+
+
 # function to copy the boiler plate code from boiler_plate_file_path to file_name
 def generate_boiler_plate_file(file_name , boiler_plate_file_path):
 
@@ -198,6 +201,85 @@ def generate_boiler_plate_file(file_name , boiler_plate_file_path):
     except PermissionError:
         raise PermissionError(f"Looks like {GlobalData.utilityName} does not have permission to write at {file_name}")
         
+
+
+
+
+
+
+
+# function to generate markdown documentation of all the templates
+def get_markdown(path):
+
+    markdown = ""
+
+    # get mapping dict
+    mapping_dict = get_mapping_dict(resource_path("templates/"))
+
+    count = 1
+    
+    allDirs = []
+
+    for key , value in mapping_dict.items():
+
+        # getting the alternate names of dir seperated by _
+        dirNames = key.split("_")
+
+        string = ""
+
+        # adding all the dirs to string
+        for i in dirNames:
+            string = string + i + " / "
+
+        string = string[:-3]
+        
+        # generating heading
+        markdown = markdown + f"\n\n# {count}. {string}\n<br>\n<br>\n\n"
+
+        tempList = []
+
+        # adding boiler plates 
+        for valueCount,i in enumerate(value):
+
+            # adding boiler plate heading
+            markdown = markdown + f"""### {valueCount + 1}. {dirNames[-1]}-{i.get("name")}\n\n<br>\n\n"""
+            tempList.append(f"""{dirNames[-1]}-{i.get("name")}""")
+
+            with open(i.get("path") , "r") as file:
+                data = file.read()
+
+            # add boiler plate code
+            markdown = markdown + f"""```{dirNames[0]}\n{data}\n```"""
+
+            markdown = markdown + "\n<br>\n<br>\n<br>\n"    
+
+
+        allDirs.append([string , tempList])
+
+        markdown = markdown + "\n<br>\n<br>\n<br>\n<br>\n<br>\n"    
+
+        count = count + 1
+
+
+    # preparing index
+    markdown_alldirs = "# Index : \n"
+    
+    for i,j in enumerate(allDirs):
+        markdown_alldirs = markdown_alldirs + f"{i + 1}. {j[0]}\n"
+
+        for k,l in enumerate(j[1]):
+            markdown_alldirs = markdown_alldirs + f"    {k + 1}. {l}\n"
+
+
+
+    markdown_alldirs = markdown_alldirs + "\n<br>\n<br>\n<br>\n<br>\n<br>\n"    
+
+
+    # writing markdown
+    with open(path , "w") as file:
+        file.write(markdown_alldirs)
+        file.write(markdown)
+
 
     
 
@@ -220,6 +302,8 @@ def main():
         print("\n\n")
         print("ERROR :" , ex)
         sys.exit()
+
+
 
 
 
