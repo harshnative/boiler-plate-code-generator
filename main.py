@@ -3,6 +3,10 @@ import os
 import sys
 
 
+from rich.console import Console
+from rich.markdown import Markdown
+
+
 
 
 class GlobalData:
@@ -162,6 +166,9 @@ def args_parser():
     # file containing the boiler plate code
     try:
         boiler_plate_file = sys.argv[1]
+
+        if(boiler_plate_file.strip().lower() == "-h"):
+            display_help()
     except IndexError:
         raise IndexError("No boiler_plate_file reference passed")
         
@@ -178,7 +185,7 @@ def args_parser():
     boiler_plate_file_path = get_file_path(boiler_plate_file)
 
     if(boiler_plate_file_path == None):
-        raise ValueError(f"No Template named {boiler_plate_file}")
+        raise ValueError(f"No Template named {boiler_plate_file}, try running with -h option to see help")
 
     
     return file_name , boiler_plate_file_path
@@ -209,7 +216,7 @@ def generate_boiler_plate_file(file_name , boiler_plate_file_path):
 
 
 # function to generate markdown documentation of all the templates
-def get_markdown(path):
+def get_markdown():
 
     markdown = ""
 
@@ -275,19 +282,31 @@ def get_markdown(path):
     markdown_alldirs = markdown_alldirs + "\n<br>\n<br>\n<br>\n<br>\n<br>\n"    
 
 
-    # writing markdown
-    with open(path , "w") as file:
-        file.write(markdown_alldirs)
-        file.write(markdown)
-
+    return markdown_alldirs + markdown
 
     
 
 
 
 
+# method to display the markdown help
+def display_help():
+    console = Console()
+    markdown = get_markdown()
+    console.print(Markdown(markdown))
+    sys.exit()
+
+    
+
+
+
+
+
+
+# main function
 def main():
     
+    # parse argument
     try:
         result = args_parser()
     except Exception as ex:
@@ -296,6 +315,7 @@ def main():
         sys.exit()
 
 
+    # generate boiler plate
     try:
         generate_boiler_plate_file(*result)
     except Exception as ex:
