@@ -44,6 +44,8 @@ Support for multiple language and formats.
 
 ### Linux
 
+Rename downloaded file to cgen and then
+
 ```
 Copy the cgen to /bin/ dir
 ```
