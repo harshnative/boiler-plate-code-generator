@@ -7,7 +7,7 @@ from rich.console import Console
 from rich.markdown import Markdown
 from apis import Data
 from colored import fg
-
+import pyperclip
 
 
 
@@ -243,7 +243,10 @@ def args_parser():
 
     # file path to write to
     try:
-        file_name = pathlib.Path(sys.argv[2]).absolute()
+        if(sys.argv[2].strip().lower() == "-c"):
+            file_name = None
+        else:
+            file_name = pathlib.Path(sys.argv[2]).absolute()
     except IndexError:
         raise IndexError("No file_name passed")
     except FileNotFoundError:
@@ -276,6 +279,21 @@ def generate_boiler_plate_file(file_name , boiler_plate_file_path):
     except PermissionError:
         raise PermissionError(f"Looks like {GlobalData.utilityName} does not have permission to write at {file_name}")
         
+
+
+
+
+
+
+
+
+
+# function to copy the boiler plate code from boiler_plate_file_path to clipboard
+def copy_boiler_plate_file(boiler_plate_file_path):
+    with open(boiler_plate_file_path , "r") as toRead:
+        data = toRead.read()
+        pyperclip.copy(data)
+
 
 
 
@@ -326,12 +344,12 @@ def get_markdown():
             # add boiler plate code
             markdown = markdown + f"""```{dirNames[0]}\n{data}\n```"""
 
-            markdown = markdown + "\n<br>\n<br>\n<br>\n"    
+            markdown = markdown + "\n<br>\n<br>\n<br>\n\n"    
 
 
         allDirs.append([string , tempList])
 
-        markdown = markdown + "\n<br>\n<br>\n<br>\n<br>\n<br>\n"    
+        markdown = markdown + "\n<br>\n<br>\n<br>\n<br>\n<br>\n\n"    
 
         count = count + 1
 
@@ -376,23 +394,36 @@ def main():
 
     # parse argument
     try:
-        result = args_parser()
+        file_name , boiler_plate_file_path = args_parser()
     except Exception as ex:
         print("\n\n")
         print("ERROR :" , ex)
         sys.exit()
 
 
-    # generate boiler plate
-    try:
-        generate_boiler_plate_file(*result)
-    except Exception as ex:
-        print("\n\n")
-        print("ERROR :" , ex)
-        sys.exit()
+    if(file_name != None):
+
+        # generate boiler plate
+        try:
+            generate_boiler_plate_file(file_name , boiler_plate_file_path)
+        except Exception as ex:
+            print("\n\n")
+            print("ERROR :" , ex)
+            sys.exit()
+
+        print("\n\nCode Generated (^_^)\n")
 
 
-    print("\n\nCode Generated (^_^)\n")
+    else:
+        # copy boiler plate
+        try:
+            copy_boiler_plate_file(boiler_plate_file_path)
+        except Exception as ex:
+            print("\n\n")
+            print("ERROR :" , ex)
+            sys.exit()
+
+        print("\n\nCode Copied (^_^)\n")
 
 
 
