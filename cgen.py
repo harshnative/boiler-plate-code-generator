@@ -13,7 +13,7 @@ import pyperclip
 
 class GlobalData:
     utilityName = "cgen"
-    utilityVersion = 0.1
+    utilityVersion = 0.2
 
     update_message = None
 
