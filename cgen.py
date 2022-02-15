@@ -435,3 +435,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+# pyi-makespec
+# Tree('/media/veracrypt63/Projects/boiler-plate-code-generator/templates', prefix='templates/'),
