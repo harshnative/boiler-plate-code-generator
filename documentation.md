@@ -65,6 +65,16 @@ test.py will be generated from boiler plate code of py-main template
 
 <br>
 <br>
+
+
+```bash
+cgen template -c
+```
+
+to copy the boiler plate code to clipboard
+
+<br>
+<br>
 <br>
 <br>
 <br>
