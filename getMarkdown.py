@@ -1,4 +1,4 @@
-import main as mainScript
+import cgen as mainScript
 
 
 def main():
