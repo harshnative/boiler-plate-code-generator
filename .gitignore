@@ -24,8 +24,6 @@ runPyTests.py
 
 temp/
 
-*.txt
-
 JarvisData/
 
 pytests/
