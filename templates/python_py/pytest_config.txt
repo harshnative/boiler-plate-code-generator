@@ -1,0 +1,4 @@
+[pytest]
+
+addopts = --html=pytest_results.html --junitxml="pytest_results.xml" -v --ignore=assets/ --ignore=binFiles/ --ignore=myvirtual/ 
+
