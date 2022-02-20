@@ -16,3 +16,9 @@
 * new shell script to install pytest into pythons virtualenv
 * new shell script to install jupyter-notebook into pythonds virtualenv
 * -c argument to copy the boiler plate code instead of outputting to a file
+
+
+## version 0.3
+
+* new template picker with -h help
+* moved -h to -ha command
