@@ -1,5 +1,6 @@
 import pathlib
 import os
+from statistics import mode
 import sys
 import requests
 from threading import Thread
@@ -235,6 +236,9 @@ def args_parser():
         if(boiler_plate_file.strip().lower() == "-h"):
             display_help()
 
+        if(boiler_plate_file.strip().lower() == "-ha"):
+            display_help(mode = 1)
+
         if(boiler_plate_file.strip().lower() == "-c"):
             version_check()
     except IndexError:
@@ -375,14 +379,94 @@ def get_markdown():
 
 
 
-# method to display the markdown help
-def display_help():
-    console = Console()
-    markdown = get_markdown()
-    console.print(Markdown(markdown))
-    sys.exit()
 
+
+
+
+
+
+# function to generate markdown documentation of all the templates
+def get_markdown_list():
+
+    # get mapping dict
+    mapping_dict = get_mapping_dict(resource_path("templates/"))
+
+    count = 1
     
+    allDirs = []
+
+    for key , value in mapping_dict.items():
+
+        # getting the alternate names of dir seperated by _
+        dirNames = key.split("_")
+
+        string = ""
+
+        # adding all the dirs to string
+        for i in dirNames:
+            string = string + i + " / "
+
+        string = string[:-3]
+
+        tempList = []
+
+        # adding boiler plates 
+        for valueCount,i in enumerate(value):
+            tempList.append(f"""{dirNames[-1]}-{i.get("name")}""")
+
+
+        allDirs.append([string , tempList])
+
+    mappingList = []
+
+    # preparing index
+    markdown_alldirs = ""
+    
+    for i,j in enumerate(allDirs):
+        markdown_alldirs = markdown_alldirs + f"{i + 1}. {j[0]}\n"
+
+        for k,l in enumerate(j[1]):
+            markdown_alldirs = markdown_alldirs + f"\n    * {i+1}.{k + 1} {l}\n"
+
+            mappingList.append([f"{i+1}.{k + 1}" , l])
+
+    markdown_alldirs = markdown_alldirs + "\n\n"
+
+    return markdown_alldirs , mappingList
+
+
+
+
+
+# method to display the markdown help
+def display_help(mode = 0):
+    if(mode != 0):
+        console = Console()
+        markdown = get_markdown()
+        console.print(Markdown(markdown))
+        sys.exit()
+
+        
+    else:
+        console = Console()
+        markdown , mappingList = get_markdown_list()
+
+        console.print(Markdown(markdown))
+
+        print("\n\n")
+
+        choosed = input("Choose a number from above : ")
+
+        for i in mappingList:
+            if(choosed == i[0]):
+                copy_boiler_plate_file(get_file_path(i[1]))
+                print("\n\nCode Copied (^_^)\n")
+                sys.exit()
+
+        
+        print("\n\nError , file not found")
+
+        sys.exit()
 
 
 
