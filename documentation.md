@@ -30,6 +30,13 @@ Support for multiple language and formats.
 2. [Windows - not avaiable yet]()
 
 
+<br>
+<br>
+
+### Version 0.3
+
+1. [Debain / Ubuntu](https://www.letscodeofficial.com/media/fileSharer/cgen_TyfcJyW)
+2. [Windows - not avaiable yet]()
 
 <br>
 <br>
