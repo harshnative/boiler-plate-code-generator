@@ -99,7 +99,7 @@ checkout all available templates [click here](https://www.letscodeofficial.com/d
 
 <br>
 
-or run cgen with -h command
+or run cgen with -h command and choose template from menu
 
 ```bash
 cgen -h
@@ -108,6 +108,15 @@ cgen -h
 <br>
 
 
+
+# Help
+
+
+```bash
+cgen -ha
+```
+
+List out all the templates and their codes in beautiful format.
 
 <br>
 <br>
